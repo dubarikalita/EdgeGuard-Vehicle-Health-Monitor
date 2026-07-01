@@ -2,9 +2,11 @@
 
 ## Overview
 
-EdgeGuard is an AI-powered vehicle health monitoring system that analyzes live vehicle sensor data to detect faults, identify abnormal operating conditions, estimate vehicle health, assess risk levels, and predict maintenance requirements before major failures occur.
+EdgeGuard is an AI-powered vehicle health monitoring and predictive maintenance platform that combines Machine Learning with a modern web dashboard to monitor vehicle health in real time.
 
-The system is designed for edge deployment and real-time monitoring, making it suitable for personal vehicles, EVs, and fleet management applications.
+The backend processes live vehicle sensor data to classify faults, detect anomalies, calculate a vehicle health score, assess risk levels, and predict maintenance requirements. These insights are exposed through APIs and visualized on an interactive React dashboard, enabling users to monitor vehicle conditions proactively.
+
+The system is designed for edge deployment and real-time monitoring, making it suitable for personal vehicles, electric vehicles (EVs), and fleet management applications.
 
 ---
 
@@ -126,6 +128,23 @@ Determines maintenance priority:
 
 ---
 
+## Dashboard & Visualization
+
+The frontend provides an interactive dashboard for monitoring vehicle health and system predictions in real time.
+
+Features include:
+
+* Vehicle Health Score Gauge
+* Live Sensor Monitoring Cards
+* Fault & Risk Status Panel
+* Maintenance Recommendation Alerts
+* AI Insights Panel
+* Historical Trend Charts
+* Responsive Dashboard UI
+* Fault Simulation for Testing
+
+---
+
 # System Architecture
 
 Live Sensor Data
@@ -144,39 +163,79 @@ Maintenance Prediction Model
 ↓
 Maintenance Urgency Engine
 ↓
-JSON Output
+REST API
+↓
+React Frontend Dashboard
+↓
+Interactive Vehicle Monitoring
 
 ---
 
 # Project Structure
 
 ```text
-vehicle-health-monitor/
+EdgeGuard/
 │
-├── dataset/
-│   ├── vehicle_maintenance.csv
-│   ├── raw_data.csv
-│   ├── train.csv
-│   ├── test.csv
-│   ├── kaggle_train.csv
-│   ├── kaggle_test.csv
-│   ├── kaggle_features.pkl
-│   ├── kaggle_encoders.pkl
-│   ├── generate_dataset.py
-│   └── prepare_kaggle.py
+├── backend/
+│   ├── dataset/
+│   │   ├── vehicle_maintenance.csv
+│   │   ├── raw_data.csv
+│   │   ├── train.csv
+│   │   ├── test.csv
+│   │   ├── kaggle_train.csv
+│   │   ├── kaggle_test.csv
+│   │   ├── kaggle_features.pkl
+│   │   ├── kaggle_encoders.pkl
+│   │   ├── generate_dataset.py
+│   │   └── prepare_kaggle.py
+│   │
+│   ├── models/
+│   │   ├── saved_model.pkl
+│   │   ├── maintenance_model.pkl
+│   │   ├── anomaly_detector.pkl
+│   │   └── label_encoder.pkl
+│   │
+│   ├── sensor_simulator.py
+│   ├── train_model.py
+│   ├── optimize_model.py
+│   ├── predict.py
+│   └── requirements.txt
+│  
 │
-├── models/
-│   ├── saved_model.pkl
-│   ├── maintenance_model.pkl
-│   ├── anomaly_detector.pkl
-│   └── label_encoder.pkl
+├── frontend/
+│   ├── public/
+│   │
+│   ├── src/
+│   │   ├── assets/
+│   │   │   ├── logo.png
+│   │   │   └── images/
+│   │   │
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Hero.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── DashboardLayout.jsx
+│   │   │   ├── MetricCard.jsx
+│   │   │   ├── SensorCard.jsx
+│   │   │   ├── HealthGauge.jsx
+│   │   │   ├── AlertPanel.jsx
+│   │   │   ├── AIInsightCard.jsx
+│   │   │   └── LiveChart.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── LandingPage.jsx
+│   │   │   └── Dashboard.jsx
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   ├── index.css
+│   │   └── routes.jsx
+│   │
+│   ├── package.json
+│   ├── vite.config.js
+│   └── tailwind.config.js
 │
-├── sensor_simulator.py
-├── train_model.py
-├── optimize_model.py
-├── predict.py
-│
-├── requirements.txt
 ├── README.md
 └── .gitignore
 ```
@@ -240,37 +299,83 @@ models/maintenance_model.pkl
 
 ---
 
+# Tech Stack
+
+### Frontend
+
+- React.js
+- Vite
+- Tailwind CSS
+- Recharts
+- Lucide React
+
+### Backend
+
+- Python
+- Scikit-learn
+- XGBoost
+- Pandas
+- NumPy
+
+### Machine Learning Models
+
+- Random Forest Classifier
+- Isolation Forest
+- XGBoost
+
+### Development Tools
+
+- Git & GitHub
+- VS Code
+
+---
+
 # Installation
 
 ## Clone Repository
 
 ```bash
 git clone <repository-url>
-cd vehicle-health-monitor
+cd EdgeGuard
 ```
 
-## Create Virtual Environment
+## Backend Setup
 
-Windows:
+### Create Virtual Environment
+
+**Windows**
 
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
-Linux/Mac:
+**Linux / macOS**
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-## Install Dependencies
+### Install Backend Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
+## Frontend Setup
+
+Navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install the required packages:
+
+```bash
+npm install
+```
 ---
 
 # Running the Project
@@ -308,6 +413,30 @@ low_oil
 tire_pressure_low
 suspension_issue
 ```
+
+---
+
+## Run Frontend Dashboard
+
+Navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The frontend dashboard will be available locally and can be connected to the backend prediction service for real-time vehicle health monitoring.
 
 ---
 
@@ -353,6 +482,8 @@ Example Output:
 
 ## Completed
 
+### Backend
+
 * Dataset preparation
 * Feature engineering
 * Fault classification model
@@ -367,77 +498,17 @@ Example Output:
 * Local inference testing
 * Real-time stream testing
 
----
+### Frontend
 
-# Integration Notes for Teammates
-
-## Ready-to-Use Function
-
-Use:
-
-```python
-from predict import predict
-```
-
-Example:
-
-```python
-result = predict(sensor_data)
-```
-
-The returned JSON already contains:
-
-* Health Score
-* Risk Level
-* Fault Prediction
-* Anomaly Status
-* Maintenance Requirement
-* Maintenance Urgency
-
-No additional ML processing is required.
-
----
-
-## Recommended Dashboard Components
-
-### Vehicle Overview
-
-Display:
-
-* Health Score
-* Risk Level
-* Current Fault
-* Maintenance Status
-
-### Live Sensor Panel
-
-Display:
-
-* RPM
-* Temperature
-* Voltage
-* Tire Pressure
-* Oil Level
-* Vibration
-
-### Alert System
-
-Show alerts for:
-
-* High Risk
-* Immediate Maintenance
-* Anomaly Detection
-* Critical Faults
-
-### Analytics
-
-Visualize:
-
-* Health Score Trend
-* Temperature Trend
-* RPM Trend
-* Fault Frequency
-* Maintenance History
+* Responsive landing page
+* Interactive vehicle dashboard
+* Health score gauge
+* Live sensor cards
+* Fault & maintenance alert panel
+* Historical trend charts
+* Modern dark UI
+* Backend integration
+* Fault simulation module
 
 ---
 
